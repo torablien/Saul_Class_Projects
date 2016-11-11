@@ -7,31 +7,32 @@ import edu.illinois.cs.cogcomp.saulexamples.data.Document
 import ContractAnalysis.ContractDataModel._
 import edu.illinois.cs.cogcomp.lbjava.learn.SparseNetworkLearner
 import weka.classifiers.bayes.NaiveBayes
+import weka.classifiers.trees.RandomForest
 
 
 object ContractClassifiers {
   object ContractClassifier extends Learnable[Document](docs) {
     def label = contractLabel
     override lazy val classifier = new SupportVectorMachine()
-    override def feature = using(wordFeature)
+    override def feature = using(wordFeature, bigramFeature)
   }
 
   object ContractClassifierWithCache extends Learnable[Document](docs) {
     def label = contractLabel
     override lazy val classifier = new SupportVectorMachine()
-    override def feature = using(wordFeature)
+    override def feature = using(wordFeature, bigramFeature)
     override val useCache = true
   }
 
   object DeserializedContractClassifier extends Learnable[Document](docs) {
     def label = contractLabel
     override lazy val classifier = new SupportVectorMachine()
-    override def feature = using(wordFeature)
+    override def feature = using(wordFeature, bigramFeature)
   }
-  object ContractClassifierWeka extends Learnable[Document](docs) {
+  object ContractClassifierNaiveBayes extends Learnable[Document](docs) {
     def label = contractLabel
     //override lazy val classifier = new SaulWekaWrapper(new NaiveBayes())
-    override lazy val classifier = new SparseNetworkLearner()
+    override lazy val classifier = new SaulWekaWrapper(new NaiveBayes())
     override def feature = using(wordFeature, bigramFeature)
   }
 
@@ -41,5 +42,10 @@ object ContractClassifiers {
     override def feature = using(wordFeature, bigramFeature)
   }
 
+  object RandomForestContractClassifier extends Learnable[Document](docs) {
+    def label = contractLabel
+    override lazy val classifier = new SaulWekaWrapper(new RandomForest())
+    override def feature = using(wordFeature, bigramFeature)
+  }
 
 }

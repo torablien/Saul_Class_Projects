@@ -18,12 +18,12 @@ object ContractApp extends Logging {
 
 
   object ContractExperimentType extends Enumeration {
-    val TrainAndTest, CacheGraph, TestUsingGraphCache, TestSerialization, SparseNetwork = Value
+    val TrainAndTest, CacheGraph, TestUsingGraphCache, TestSerialization, SparseNetwork, RandomForest = Value
   }
 
   def main(args: Array[String]): Unit = {
     /** Choose the experiment you're interested in by changing the following line */
-    val testType = ContractExperimentType.TrainAndTest
+    val testType = ContractExperimentType.RandomForest
 
     testType match {
       case ContractExperimentType.TrainAndTest => TrainAndTestContractClassifier()
@@ -31,6 +31,7 @@ object ContractApp extends Logging {
       case ContractExperimentType.TestUsingGraphCache => ContractClassifierFromCache()
       case ContractExperimentType.TestSerialization => ContractClassifierWithSerialization()
       case ContractExperimentType.SparseNetwork => ContractClassifierWithSparseNetwork()
+      case ContractExperimentType.RandomForest => ContractClassifierWithRandomForest()
     }
 
   }
@@ -39,8 +40,8 @@ object ContractApp extends Logging {
   def TrainAndTestContractClassifier(): Unit = {
     /** Defining the data and specifying it's location  */
     ContractDataModel.docs populate trainData
-    ContractClassifierWeka.learn(30)
-    ContractClassifierWeka.test(testData)
+    ContractClassifierNaiveBayes.learn(30)
+    ContractClassifierNaiveBayes.test(testData)
   }
 
   /** Spam Classifcation, followed by caching the data-model graph. */
@@ -84,6 +85,13 @@ object ContractApp extends Logging {
     ContractDataModel.docs populate trainData
     SparseNetworkContractClassifier.learn(30)
     SparseNetworkContractClassifier.test(testData)
+  }
+
+  def ContractClassifierWithRandomForest(): Unit = {
+    /** Defining the data and specifying it's location  */
+    ContractDataModel.docs populate trainData
+    RandomForestContractClassifier.learn(5)
+    RandomForestContractClassifier.test(testData)
   }
 
 }
