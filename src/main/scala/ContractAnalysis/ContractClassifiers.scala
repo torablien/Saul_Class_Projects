@@ -9,8 +9,7 @@ import edu.illinois.cs.cogcomp.lbjava.learn.SparseNetworkLearner
 import weka.classifiers.bayes.NaiveBayes
 
 
-object ContractClassifier {
-
+object ContractClassifiers {
   object ContractClassifier extends Learnable[Document](docs) {
     def label = contractLabel
     override lazy val classifier = new SupportVectorMachine()
@@ -31,8 +30,9 @@ object ContractClassifier {
   }
   object ContractClassifierWeka extends Learnable[Document](docs) {
     def label = contractLabel
-    override lazy val classifier = new SaulWekaWrapper(new NaiveBayes())
-    override def feature = using(wordFeature)
+    //override lazy val classifier = new SaulWekaWrapper(new NaiveBayes())
+    override lazy val classifier = new SparseNetworkLearner()
+    override def feature = using(wordFeature, bigramFeature)
   }
 
   object SparseNetworkContractClassifier extends Learnable[Document](docs) {

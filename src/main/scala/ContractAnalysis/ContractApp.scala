@@ -1,26 +1,24 @@
 package ContractAnalysis
 
-import ContractAnalysis.ContractClassifier._
+import ContractAnalysis.ContractClassifiers._
 import edu.illinois.cs.cogcomp.saul.util.Logging
 
 import scala.collection.JavaConversions._
 
 object ContractApp extends Logging {
-  val trainDataCollab = new NeilWordReader("ContractAnalysis/data/Contracts/(Collab) series-seed---certificate-of-incorporation-v-3-2.doc","collaborative").docs.toList
-  val trainDataArmsLength = new NeilWordReader("ContractAnalysis/data/Contracts/(Arms Length) NVCA-Voting-Agt-with-Bad-Actor-Provisions-Feb-2014.doc","arms-length").docs.toList
+  val trainDataCollab = new NeilWordReader("C:\\Users\\Neil\\Desktop\\CMPS3240\\Saul\\Saul_Class_Projects\\src\\main\\scala\\ContractAnalysis\\data\\Contracts\\(Collab) series-seed---stock-investment-agreement-v-3-2.doc","collaborative").docs.toList
+  val trainDataArmsLength = new NeilWordReader("C:\\Users\\Neil\\Desktop\\CMPS3240\\Saul\\Saul_Class_Projects\\src\\main\\scala\\ContractAnalysis\\data\\Contracts\\(Arms Length) SPA-with-Bad-Actor-Provisions-Feb-2014.doc","arms-length").docs.toList
   val trainData = trainDataCollab ++ trainDataArmsLength
-  //println(trainData)
 
-  val testDataArmsLength = new NeilWordReader("ContractAnalysis/data/Contracts/(Arms Length) SPA-with-Bad-Actor-Provisions-Feb-2014.doc","arms-length").docs.toList
-  val testDataCollab = new NeilWordReader("ContractAnalysis/data/Contracts/(Collab) series-seed---stock-investment-agreement-v-3-2.doc","collaborative").docs.toList
+
+  val testDataArmsLength = new NeilWordReader("C:\\Users\\Neil\\Desktop\\CMPS3240\\Saul\\Saul_Class_Projects\\src\\main\\scala\\ContractAnalysis\\data\\Contracts\\(Arms Length) NVCA-Voting-Agt-with-Bad-Actor-Provisions-Feb-2014.doc","arms-length").docs.toList
+  val testDataCollab = new NeilWordReader("C:\\Users\\Neil\\Desktop\\CMPS3240\\Saul\\Saul_Class_Projects\\src\\main\\scala\\ContractAnalysis\\data\\Contracts\\(Collab) series-seed---certificate-of-incorporation-v-3-2.doc","collaborative").docs.toList
   val testData = testDataCollab ++ testDataArmsLength
   //println(testData)
 
 
-
-
   object ContractExperimentType extends Enumeration {
-    val TrainAndTest, CacheGraph, TestUsingGraphCache, TestSerialization = Value
+    val TrainAndTest, CacheGraph, TestUsingGraphCache, TestSerialization, SparseNetwork = Value
   }
 
   def main(args: Array[String]): Unit = {
@@ -32,6 +30,7 @@ object ContractApp extends Logging {
       case ContractExperimentType.CacheGraph => ContractClassifierWithGraphCache()
       case ContractExperimentType.TestUsingGraphCache => ContractClassifierFromCache()
       case ContractExperimentType.TestSerialization => ContractClassifierWithSerialization()
+      case ContractExperimentType.SparseNetwork => ContractClassifierWithSparseNetwork()
     }
 
   }
@@ -79,4 +78,12 @@ object ContractApp extends Logging {
     logger.info(predictionsAfterSerialization.mkString("/"))
     logger.info(predictionsAfterSerialization.indices.forall(it => predictionsBeforeSerialization(it) == predictionsAfterSerialization(it)).toString)
   }
+
+  def ContractClassifierWithSparseNetwork(): Unit = {
+    /** Defining the data and specifying it's location  */
+    ContractDataModel.docs populate trainData
+    SparseNetworkContractClassifier.learn(30)
+    SparseNetworkContractClassifier.test(testData)
+  }
+
 }

@@ -1,8 +1,5 @@
 package ContractAnalysis;
 
-// Uses the Apache POI API: see https://poi.apache.org/
-// Based on various examples from Stack Overflow
-
 import edu.illinois.cs.cogcomp.saulexamples.data.Document;
 import org.apache.poi.hwpf.HWPFDocument;
 import org.apache.poi.hwpf.extractor.WordExtractor;
@@ -13,7 +10,9 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Arrays;
 
-
+/**
+ * Created by Neil on 10/26/2016.
+ */
 public class NeilWordReader {
     public ArrayList<Document> docs = new ArrayList<>();
 

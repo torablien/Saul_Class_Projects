@@ -5,7 +5,7 @@ import edu.illinois.cs.cogcomp.saulexamples.data.Document
 
 import scala.collection.JavaConversions._
 
-object ContractDataModel {
+object ContractDataModel extends DataModel{
   val docs = node[Document]
 
   val wordFeature = property(docs, "wordF") {
