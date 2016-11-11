@@ -39,8 +39,8 @@ object ContractApp extends Logging {
   def TrainAndTestContractClassifier(): Unit = {
     /** Defining the data and specifying it's location  */
     ContractDataModel.docs populate trainData
-    SparseNetworkContractClassifier.learn(30)
-    SparseNetworkContractClassifier.test(testData)
+    ContractClassifierWeka.learn(30)
+    ContractClassifierWeka.test(testData)
   }
 
   /** Spam Classifcation, followed by caching the data-model graph. */
