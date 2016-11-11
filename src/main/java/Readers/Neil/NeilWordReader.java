@@ -3,11 +3,12 @@ package Readers.Neil;
 // Uses the Apache POI API: see https://poi.apache.org/
 // Based on various examples from Stack Overflow
 
-import java.io.*;
-import java.util.Scanner;
-
 import org.apache.poi.hwpf.HWPFDocument;
 import org.apache.poi.hwpf.extractor.WordExtractor;
+
+import java.io.File;
+import java.io.FileInputStream;
+import java.util.Scanner;
 
 public class NeilWordReader {
     public static void main(String[] args)
