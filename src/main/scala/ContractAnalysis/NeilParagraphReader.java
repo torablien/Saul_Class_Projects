@@ -13,10 +13,10 @@ import java.util.Arrays;
 /**
  * Created by Neil on 10/26/2016.
  */
-public class NeilWordReader {
+public class NeilParagraphReader {
     public ArrayList<DocumentData> docs = new ArrayList<>();
 
-    public NeilWordReader(String fileName, String label) throws IOException {
+    public NeilParagraphReader(String fileName, String label) throws IOException {
         File file = null;
         WordExtractor extractor = null;
 
@@ -30,7 +30,7 @@ public class NeilWordReader {
 
             for (int i = 0; i < paragraphs.length; i++) {
                 if (paragraphs[i] != null) {
-                    ArrayList<String> paragraphsList = new ArrayList<>(Arrays.asList(paragraphs[i].split("\\s+")));
+                    ArrayList<String> paragraphsList = new ArrayList<>(Arrays.asList(paragraphs[i]));
                     docs.add(new DocumentData(paragraphsList, label));
                 }
             }

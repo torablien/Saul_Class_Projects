@@ -6,13 +6,17 @@ import edu.illinois.cs.cogcomp.saul.util.Logging
 import scala.collection.JavaConversions._
 
 object ContractApp extends Logging {
-  val trainDataCollab = new NeilWordReader("C:\\Users\\Neil\\Desktop\\CMPS3240\\Saul\\Saul_Class_Projects\\src\\main\\scala\\ContractAnalysis\\data\\Contracts\\(Collab) series-seed---stock-investment-agreement-v-3-2.doc","collaborative").docs.toList
-  val trainDataArmsLength = new NeilWordReader("C:\\Users\\Neil\\Desktop\\CMPS3240\\Saul\\Saul_Class_Projects\\src\\main\\scala\\ContractAnalysis\\data\\Contracts\\(Arms Length) SPA-with-Bad-Actor-Provisions-Feb-2014.doc","arms-length").docs.toList
+  val filepath = "C:\\Users\\Neil\\Desktop\\CMPS3240\\Saul\\Saul_Class_Projects\\src\\main\\scala\\ContractAnalysis\\data\\Contracts\\"
+  val trainingFiles = Array(("(Collab) series-seed---stock-investment-agreement-v-3-2.doc", "collaborative"),("(Arms Length) SPA-with-Bad-Actor-Provisions-Feb-2014.doc", "arms-length"))
+
+
+  val trainDataCollab = new NeilWordReader(filepath + "(Collab) series-seed---stock-investment-agreement-v-3-2.doc","collaborative").docs.toList
+  val trainDataArmsLength = new NeilWordReader(filepath + "(Arms Length) SPA-with-Bad-Actor-Provisions-Feb-2014.doc","arms-length").docs.toList
   val trainData = trainDataCollab ++ trainDataArmsLength
 
 
-  val testDataArmsLength = new NeilWordReader("C:\\Users\\Neil\\Desktop\\CMPS3240\\Saul\\Saul_Class_Projects\\src\\main\\scala\\ContractAnalysis\\data\\Contracts\\(Arms Length) NVCA-Voting-Agt-with-Bad-Actor-Provisions-Feb-2014.doc","arms-length").docs.toList
-  val testDataCollab = new NeilWordReader("C:\\Users\\Neil\\Desktop\\CMPS3240\\Saul\\Saul_Class_Projects\\src\\main\\scala\\ContractAnalysis\\data\\Contracts\\(Collab) series-seed---certificate-of-incorporation-v-3-2.doc","collaborative").docs.toList
+  val testDataArmsLength = new NeilWordReader(filepath + "(Arms Length) NVCA-Voting-Agt-with-Bad-Actor-Provisions-Feb-2014.doc","arms-length").docs.toList
+  val testDataCollab = new NeilWordReader(filepath + "(Collab) series-seed---certificate-of-incorporation-v-3-2.doc","collaborative").docs.toList
   val testData = testDataCollab ++ testDataArmsLength
   //println(testData)
 
@@ -23,7 +27,7 @@ object ContractApp extends Logging {
 
   def main(args: Array[String]): Unit = {
     /** Choose the experiment you're interested in by changing the following line */
-    val testType = ContractExperimentType.RandomForest
+    val testType = ContractExperimentType.TrainAndTest
 
     testType match {
       case ContractExperimentType.TrainAndTest => TrainAndTestContractClassifier()

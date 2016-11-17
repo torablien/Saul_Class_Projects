@@ -1,6 +1,6 @@
 package ContractAnalysis;
 
-import ContractAnalysis.data.DocumentData;
+import edu.illinois.cs.cogcomp.saulexamples.data.Document;
 import org.apache.poi.hwpf.HWPFDocument;
 import org.apache.poi.hwpf.extractor.WordExtractor;
 
@@ -13,10 +13,10 @@ import java.util.Arrays;
 /**
  * Created by Neil on 10/26/2016.
  */
-public class NeilWordReader {
-    public ArrayList<DocumentData> docs = new ArrayList<>();
+public class NeilEntireDocumentReader {
+    public ArrayList<Document> docs = new ArrayList<>();
 
-    public NeilWordReader(String fileName, String label) throws IOException {
+    public NeilEntireDocumentReader(String fileName, String label) throws IOException {
         File file = null;
         WordExtractor extractor = null;
 
@@ -26,14 +26,8 @@ public class NeilWordReader {
             FileInputStream fis = new FileInputStream(file.getAbsolutePath());
             HWPFDocument document = new HWPFDocument(fis);
             extractor = new WordExtractor(document);
-            String[] paragraphs = extractor.getParagraphText();
-
-            for (int i = 0; i < paragraphs.length; i++) {
-                if (paragraphs[i] != null) {
-                    ArrayList<String> paragraphsList = new ArrayList<>(Arrays.asList(paragraphs[i].split("\\s+")));
-                    docs.add(new DocumentData(paragraphsList, label));
-                }
-            }
+            ArrayList<String> text = new ArrayList<>(Arrays.asList(extractor.getText()));
+            docs.add(new Document(text, label));
 
         } catch (Exception e) {
             e.printStackTrace();
