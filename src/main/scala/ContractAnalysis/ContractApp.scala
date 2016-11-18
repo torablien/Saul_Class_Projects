@@ -22,7 +22,7 @@ object ContractApp extends Logging {
 
 
   object ContractExperimentType extends Enumeration {
-    val NaiveBayes, CacheGraph, TestUsingGraphCache, TestSerialization, SparseNetwork, RandomForest = Value
+    val NaiveBayes, CacheGraph, TestUsingGraphCache, TestSerialization, SparseNetwork, RandomForest, AveragedPerceptron, AdaBoost = Value
   }
 
   def main(args: Array[String]): Unit = {
@@ -36,6 +36,8 @@ object ContractApp extends Logging {
       case ContractExperimentType.TestSerialization => ContractClassifierWithSerialization()
       case ContractExperimentType.SparseNetwork => ContractClassifierWithSparseNetwork()
       case ContractExperimentType.RandomForest => ContractClassifierWithRandomForest()
+      case ContractExperimentType.AveragedPerceptron => ContractClassifierWithAveragedPerceptron()
+      case ContractExperimentType.AdaBoost => ContractClassifierWithAdaBoost()
     }
 
   }
@@ -99,14 +101,46 @@ object ContractApp extends Logging {
     RandomForestContractClassifier.test(testData)
   }
 
+
+  def ContractClassifierWithAveragedPerceptron(): Unit = {
+    /** Defining the data and specifying it's location  */
+    ContractDataModel.docs populate trainData
+    SparseAveragedPerceptronClassifier.learn(10)
+    SparseAveragedPerceptronClassifier.test(testData)
+
+  }
+
+  def ContractClassifierWithAdaBoost(): Unit = {
+    /** Defining the data and specifying it's location  */
+    ContractDataModel.docs populate trainData
+    AdaBoostClassifier.learn(10)
+    AdaBoostClassifier.test(testData)
+
+  }
+
 }
 
 
 /*
 1. Naive Bayes takes long tme
 2. TFIDF implement to Saul
-3. What is layout and length of paper? When is it due?
+3. What is layout and length of paper? When is it due? ---basically presentation with detail -> 4-5 including refernces
 4. What is considered acceptable results?
 5. What algorithm would you recommend?
+
+
+TFIDF - feature is Values Array as long as ordering of Keys remains the same
+Test stratified - but doesnn't make sense
+
+Try AdaBoost and SVM try averaged perceptron
+
+Debug
+Add break point
+Watch variable
+
+Go to-- watch the CLASSIFIER
+
+take attribute .clossifier.getLexicon
+couple thousand is reasonable
 
  */

@@ -43,8 +43,6 @@ public class DocumentData {
         this.words = words;
         this.label = label;
 
-
-
         for(String prestripWord : words)
         {
             String word = prestripWord.replaceAll("[^a-zA-Z]", "").toLowerCase();

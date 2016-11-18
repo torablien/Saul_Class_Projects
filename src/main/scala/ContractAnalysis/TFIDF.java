@@ -3,7 +3,9 @@ package ContractAnalysis;
 import ContractAnalysis.data.DocumentData;
 
 import java.io.IOException;
-import java.util.*;
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.Map;
 
 public class TFIDF {
 
@@ -50,9 +52,21 @@ public class TFIDF {
         String doc2Arr[] = document2.split("\\s+");
         String docsArr[][] = {doc1Arr, doc2Arr};
 
-        for(String word: doc2Arr) {
+        String combinedDocs[] = (document1 + document2).split("\\s+");
+
+
+        for(String word: combinedDocs) {
             if(!tfidfMap.containsKey(word))
                 tfidfMap.put(word, getTFIDF(word, doc2Arr, docsArr));
+        }
+
+        System.out.println(tfidfMap);
+
+        tfidfMap.clear();
+
+        for(String word: combinedDocs) {
+            if(!tfidfMap.containsKey(word))
+                tfidfMap.put(word, getTFIDF(word, doc1Arr, docsArr));
         }
 
         System.out.println(tfidfMap);

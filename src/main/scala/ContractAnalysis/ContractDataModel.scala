@@ -38,7 +38,7 @@ object ContractDataModel extends DataModel{
       words.sliding(4).map(_.mkString("-")).toList
   }
 
-  val contractLabel = property(docs, "label") {
+  val contractLabel = property(docs)("arms-length","collaborative") {
     x: DocumentData => x.getLabel
   }
 

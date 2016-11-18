@@ -46,4 +46,16 @@ object ContractClassifiers {
     override def feature = using(wordFeature, bigramFeature)
   }
 
+  object SparseAveragedPerceptronClassifier extends Learnable[DocumentData](docs) {
+    def label = contractLabel
+    override lazy val classifier = new SparseAveragedPerceptron();
+    override def feature = using(filteredWordFeature, lexiconWordFeature, bigramFeature, trigramFeature)
+  }
+
+  object AdaBoostClassifier extends Learnable[DocumentData](docs) {
+    def label = contractLabel
+    override lazy val classifier = new AdaBoost();
+    override def feature = using(filteredWordFeature, lexiconWordFeature, bigramFeature, trigramFeature)
+  }
+
 }
