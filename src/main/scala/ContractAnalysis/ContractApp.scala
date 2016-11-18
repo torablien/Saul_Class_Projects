@@ -22,15 +22,15 @@ object ContractApp extends Logging {
 
 
   object ContractExperimentType extends Enumeration {
-    val TrainAndTest, CacheGraph, TestUsingGraphCache, TestSerialization, SparseNetwork, RandomForest = Value
+    val NaiveBayes, CacheGraph, TestUsingGraphCache, TestSerialization, SparseNetwork, RandomForest = Value
   }
 
   def main(args: Array[String]): Unit = {
     /** Choose the experiment you're interested in by changing the following line */
-    val testType = ContractExperimentType.TrainAndTest
+    val testType = ContractExperimentType.SparseNetwork
 
     testType match {
-      case ContractExperimentType.TrainAndTest => TrainAndTestContractClassifier()
+      case ContractExperimentType.NaiveBayes => BayesContractClassifier()
       case ContractExperimentType.CacheGraph => ContractClassifierWithGraphCache()
       case ContractExperimentType.TestUsingGraphCache => ContractClassifierFromCache()
       case ContractExperimentType.TestSerialization => ContractClassifierWithSerialization()
@@ -41,10 +41,10 @@ object ContractApp extends Logging {
   }
 
   /** A standard method for testing the Spam Classification problem. Simply training and testing the resulting model.*/
-  def TrainAndTestContractClassifier(): Unit = {
+  def BayesContractClassifier(): Unit = {
     /** Defining the data and specifying it's location  */
     ContractDataModel.docs populate trainData
-    ContractClassifierNaiveBayes.learn(30)
+    ContractClassifierNaiveBayes.learn(1)
     ContractClassifierNaiveBayes.test(testData)
   }
 
@@ -87,7 +87,7 @@ object ContractApp extends Logging {
   def ContractClassifierWithSparseNetwork(): Unit = {
     /** Defining the data and specifying it's location  */
     ContractDataModel.docs populate trainData
-    SparseNetworkContractClassifier.learn(30)
+    SparseNetworkContractClassifier.learn(20)
     SparseNetworkContractClassifier.test(testData)
   }
 

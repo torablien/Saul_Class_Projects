@@ -12,19 +12,25 @@ object ContractDataModel extends DataModel{
     x: DocumentData => x.getWords.toList
   }
 
-  val bigramFeature = property(docs, "bigram") {
-    x: DocumentData =>
-      val words = x.getWords.toList
-
-      /** bigram features */
-      words.sliding(2).map(_.mkString("-")).toList
-  }
-
-
   val filteredWordFeature = property(docs, "filteredWordF") {
     x: DocumentData => x.getFilteredWords.toList
   }
 
+  val lexicobWordFeature = property(docs, "lexiconWordF") {
+    x: DocumentData => x.getLexiconWords.toList
+  }
+
+  val bigramFeature = property(docs, "bigram") {
+    x: DocumentData =>
+      val words = x.getFilteredWords.toList
+      words.sliding(2).map(_.mkString("-")).toList
+  }
+
+  val trigramFeature = property(docs, "trigram") {
+    x: DocumentData =>
+      val words = x.getFilteredWords.toList
+      words.sliding(3).map(_.mkString("-")).toList
+  }
 
   val contractLabel = property(docs, "label") {
     x: DocumentData => x.getLabel

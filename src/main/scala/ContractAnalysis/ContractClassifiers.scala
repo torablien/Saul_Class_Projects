@@ -33,13 +33,13 @@ object ContractClassifiers {
     def label = contractLabel
     //override lazy val classifier = new SaulWekaWrapper(new NaiveBayes())
     override lazy val classifier = new SaulWekaWrapper(new NaiveBayes())
-    override def feature = using(filteredWordFeature)
+    override def feature = using(filteredWordFeature, bigramFeature)
   }
 
   object SparseNetworkContractClassifier extends Learnable[DocumentData](docs) {
     def label = contractLabel
     override lazy val classifier = new SparseNetworkLearner()
-    override def feature = using(wordFeature, bigramFeature)
+    override def feature = using(filteredWordFeature)
   }
 
   object RandomForestContractClassifier extends Learnable[DocumentData](docs) {
