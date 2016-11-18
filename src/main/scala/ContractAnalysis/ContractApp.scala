@@ -87,8 +87,9 @@ object ContractApp extends Logging {
   def ContractClassifierWithSparseNetwork(): Unit = {
     /** Defining the data and specifying it's location  */
     ContractDataModel.docs populate trainData
-    SparseNetworkContractClassifier.learn(20)
+    SparseNetworkContractClassifier.learn(10)
     SparseNetworkContractClassifier.test(testData)
+
   }
 
   def ContractClassifierWithRandomForest(): Unit = {
@@ -99,3 +100,13 @@ object ContractApp extends Logging {
   }
 
 }
+
+
+/*
+1. Naive Bayes takes long tme
+2. TFIDF implement to Saul
+3. What is layout and length of paper? When is it due?
+4. What is considered acceptable results?
+5. What algorithm would you recommend?
+
+ */
