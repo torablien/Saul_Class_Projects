@@ -16,7 +16,7 @@ import java.util.Arrays;
 public class NeilWordReader {
     public ArrayList<DocumentData> docs = new ArrayList<>();
 
-    public NeilWordReader(String fileName, String label) throws IOException {
+    public NeilWordReader(String fileName, String label, int docNumber) throws IOException {
         File file = null;
         WordExtractor extractor = null;
 
@@ -31,7 +31,7 @@ public class NeilWordReader {
             for (int i = 0; i < paragraphs.length; i++) {
                 if (paragraphs[i] != null) {
                     ArrayList<String> paragraphsList = new ArrayList<>(Arrays.asList(paragraphs[i].split("\\s+")));
-                    docs.add(new DocumentData(paragraphsList, label));
+                    docs.add(new DocumentData(paragraphsList, label, docNumber));
                 }
             }
 

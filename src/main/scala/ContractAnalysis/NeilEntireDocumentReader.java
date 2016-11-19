@@ -17,7 +17,7 @@ public class NeilEntireDocumentReader {
     public ArrayList<DocumentData> docs = new ArrayList<>();
     public String docText;
 
-    public NeilEntireDocumentReader(String fileName, String label) throws IOException {
+    public NeilEntireDocumentReader(String fileName, String label, int docNumber) throws IOException {
         File file = null;
         WordExtractor extractor = null;
 
@@ -29,7 +29,7 @@ public class NeilEntireDocumentReader {
             extractor = new WordExtractor(document);
             docText = extractor.getText();
             ArrayList<String> text = new ArrayList<>(Arrays.asList(extractor.getText()));
-            docs.add(new DocumentData(text, label));
+            docs.add(new DocumentData(text, label, docNumber));
 
         } catch (Exception e) {
             e.printStackTrace();

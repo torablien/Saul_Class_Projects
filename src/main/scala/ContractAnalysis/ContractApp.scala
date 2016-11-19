@@ -7,18 +7,15 @@ import scala.collection.JavaConversions._
 
 object ContractApp extends Logging {
   val filepath = "C:\\Users\\Neil\\Desktop\\CMPS3240\\Saul\\Saul_Class_Projects\\src\\main\\scala\\ContractAnalysis\\data\\Contracts\\"
-  val trainingFiles = Array(("(Collab) series-seed---stock-investment-agreement-v-3-2.doc", "collaborative"),("(Arms Length) SPA-with-Bad-Actor-Provisions-Feb-2014.doc", "arms-length"))
 
+  val trainDataCollab = new NeilWordReader(filepath + "(Collab) series-seed---stock-investment-agreement-v-3-2.doc","collaborative", 3).docs.toList
+  val trainDataArmsLength = new NeilWordReader(filepath + "(Arms Length) SPA-with-Bad-Actor-Provisions-Feb-2014.doc","arms-length", 4).docs.toList
 
-  val trainDataCollab = new NeilWordReader(filepath + "(Collab) series-seed---stock-investment-agreement-v-3-2.doc","collaborative").docs.toList
-  val trainDataArmsLength = new NeilWordReader(filepath + "(Arms Length) SPA-with-Bad-Actor-Provisions-Feb-2014.doc","arms-length").docs.toList
   val trainData = trainDataCollab ++ trainDataArmsLength
 
-
-  val testDataArmsLength = new NeilWordReader(filepath + "(Arms Length) NVCA-Voting-Agt-with-Bad-Actor-Provisions-Feb-2014.doc","arms-length").docs.toList
-  val testDataCollab = new NeilWordReader(filepath + "(Collab) series-seed---certificate-of-incorporation-v-3-2.doc","collaborative").docs.toList
+  val testDataCollab = new NeilWordReader(filepath + "(Collab) series-seed---certificate-of-incorporation-v-3-2.doc","collaborative", 1).docs.toList
+  val testDataArmsLength = new NeilWordReader(filepath + "(Arms Length) NVCA-Voting-Agt-with-Bad-Actor-Provisions-Feb-2014.doc","arms-length", 2).docs.toList
   val testData = testDataCollab ++ testDataArmsLength
-  //println(testData)
 
 
   object ContractExperimentType extends Enumeration {
@@ -125,14 +122,11 @@ object ContractApp extends Logging {
 1. Naive Bayes takes long tme
 2. TFIDF implement to Saul
 3. What is layout and length of paper? When is it due? ---basically presentation with detail -> 4-5 including refernces
-4. What is considered acceptable results?
-5. What algorithm would you recommend?
+4. What is considered acceptable results? -> Mine are pretty good results
 
 
 TFIDF - feature is Values Array as long as ordering of Keys remains the same
 Test stratified - but doesnn't make sense
-
-Try AdaBoost and SVM try averaged perceptron
 
 Debug
 Add break point

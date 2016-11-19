@@ -38,6 +38,13 @@ object ContractDataModel extends DataModel{
       words.sliding(4).map(_.mkString("-")).toList
   }
 
+  val tfidfFeature = property(docs, "tfidf") { // four word phrases
+    x: DocumentData =>
+      val docNumber = x.getDocNumber
+      docNumber
+      // tfidf(docNumber).getTFIDFValues.toList
+  }
+
   val contractLabel = property(docs)("arms-length","collaborative") {
     x: DocumentData => x.getLabel
   }

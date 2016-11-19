@@ -12,6 +12,7 @@ public class DocumentData {
 
     private final String label;
     private final List<String> words;
+    private final int docNumber;
     private final List<String> filteredWords = new ArrayList<>();
     private final List<String> lexiconWords = new ArrayList<>();
 
@@ -22,33 +23,39 @@ public class DocumentData {
     private final Set<String> vocabularySet = new HashSet<String>(Arrays.asList(vocabulary));
 
 
-    private String guid;
+    public DocumentData(List<String> words, String label, int docNumber)
+    {
+
+        this.words = words;
+        this.label = label;
+        this.docNumber = docNumber;
+
+        filterWords(words);
+        buildLexiconSet(filteredWords);
+
+    }
+
+    public DocumentData(List<String> words, String label)
+    {
+        this(words, label, -1);
+    }
+
 
     public DocumentData(List<String> words) {
 
         this(words, "unknown");
     }
 
-    public void setGUID(String guid) {
-        this.guid = guid;
-    }
-
-    public String getGUID(){
-        return this.guid;
-    }
-
-
-    public DocumentData(List<String> words, String label)
-    {
-        this.words = words;
-        this.label = label;
-
+    public void filterWords(List<String> words){
         for(String prestripWord : words)
         {
             String word = prestripWord.replaceAll("[^a-zA-Z]", "").toLowerCase();
             if(!stopWordSet.contains(word))
                 filteredWords.add(word);
         }
+    }
+
+    public void buildLexiconSet(List<String> words){
         for(String word : filteredWords) {
             if (vocabularySet.contains(word)) {
                 lexiconWords.add(word);
@@ -57,9 +64,12 @@ public class DocumentData {
         }
     }
 
+
     public String getLabel() {
         return label;
     }
+
+    public int getDocNumber(){return docNumber;}
 
     public List<String> getWords() {
         return Collections.unmodifiableList(words);
@@ -74,8 +84,7 @@ public class DocumentData {
 
     @Override
     public String toString() {
-        // TODO Auto-generated method stub
-        return label + ", " + words;
+        return docNumber + ", " + label + ", " + words;
     }
 
 }
