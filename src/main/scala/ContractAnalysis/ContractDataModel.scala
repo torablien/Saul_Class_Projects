@@ -38,7 +38,7 @@ object ContractDataModel extends DataModel{
       words.sliding(4).map(_.mkString("-")).toList
   }
 
-  val tfidfFeature = property(docs, "tfidf") {
+  val tfidfFeature = property(docs) {
     x: DocumentData => x.getTFIDFList.toList
   }
 

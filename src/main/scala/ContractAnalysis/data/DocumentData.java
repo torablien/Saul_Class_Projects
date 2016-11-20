@@ -1,6 +1,7 @@
 package ContractAnalysis.data;
 
 import ContractAnalysis.DoubleReader;
+import edu.stanford.nlp.util.ArrayUtils;
 
 import java.util.*;
 
@@ -61,7 +62,6 @@ public class DocumentData {
         for(String word : filteredWords) {
             if (vocabularySet.contains(word)) {
                 lexiconWords.add(word);
-
             }
         }
     }
@@ -83,19 +83,22 @@ public class DocumentData {
         return Collections.unmodifiableList(lexiconWords);
     }
 
-    public List<Double> getTFIDFList() {
+    public double[] getTFIDFList() {
+        double[] x;
+
         if(docNumber == 1)
-            return Collections.unmodifiableList(tfidfDoc1);
+            x = ArrayUtils.toPrimitive(tfidfDoc1.toArray(new Double[tfidfDoc1.size()]));
         else if(docNumber == 2)
-            return Collections.unmodifiableList(tfidfDoc2);
+            x = ArrayUtils.toPrimitive(tfidfDoc2.toArray(new Double[tfidfDoc2.size()]));
         else if(docNumber == 3)
-            return Collections.unmodifiableList(tfidfDoc3);
+            x = ArrayUtils.toPrimitive(tfidfDoc3.toArray(new Double[tfidfDoc3.size()]));
         else if(docNumber == 4)
-            return Collections.unmodifiableList(tfidfDoc4);
+            x = ArrayUtils.toPrimitive(tfidfDoc4.toArray(new Double[tfidfDoc4.size()]));
         else{
             System.out.println("ERROR GETTING TFIDF LIST!");
-            return Collections.unmodifiableList(tfidfDoc1);
+            x = ArrayUtils.toPrimitive(tfidfDoc1.toArray(new Double[tfidfDoc1.size()]));
         }
+        return x;
     }
 
 
