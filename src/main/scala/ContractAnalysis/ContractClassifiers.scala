@@ -37,7 +37,7 @@ object ContractClassifiers {
   object SparseNetworkContractClassifier extends Learnable[DocumentData](docs) {
     def label = contractLabel
     override lazy val classifier = new SparseNetworkLearner()
-    override def feature = using(filteredWordFeature, lexiconWordFeature, bigramFeature, trigramFeature)
+    override def feature = using(filteredWordFeature, lexiconWordFeature, bigramFeature, trigramFeature, tfidfFeature)
   }
 
   object RandomForestContractClassifier extends Learnable[DocumentData](docs) {

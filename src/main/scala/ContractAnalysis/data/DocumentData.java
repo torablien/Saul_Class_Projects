@@ -1,11 +1,8 @@
 package ContractAnalysis.data;
 
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.Collections;
-import java.util.HashSet;
-import java.util.List;
-import java.util.Set;
+import ContractAnalysis.DoubleReader;
+
+import java.util.*;
 
 
 public class DocumentData {
@@ -21,6 +18,11 @@ public class DocumentData {
 
     private final String vocabulary[] = {"bad", "bad-actor", "failure", "sale"};
     private final Set<String> vocabularySet = new HashSet<String>(Arrays.asList(vocabulary));
+
+    private static final List<Double> tfidfDoc1 = new DoubleReader("C:\\Users\\Neil\\Desktop\\CMPS3240\\Saul\\Saul_Class_Projects\\src\\main\\scala\\ContractAnalysis\\data\\TFIDF\\TFIDFDoc1.txt").doubles;
+    private static final List<Double> tfidfDoc2 = new DoubleReader("C:\\Users\\Neil\\Desktop\\CMPS3240\\Saul\\Saul_Class_Projects\\src\\main\\scala\\ContractAnalysis\\data\\TFIDF\\TFIDFDoc2.txt").doubles;
+    private static final List<Double> tfidfDoc3 = new DoubleReader("C:\\Users\\Neil\\Desktop\\CMPS3240\\Saul\\Saul_Class_Projects\\src\\main\\scala\\ContractAnalysis\\data\\TFIDF\\TFIDFDoc3.txt").doubles;
+    private static final List<Double> tfidfDoc4 = new DoubleReader("C:\\Users\\Neil\\Desktop\\CMPS3240\\Saul\\Saul_Class_Projects\\src\\main\\scala\\ContractAnalysis\\data\\TFIDF\\TFIDFDoc4.txt").doubles;
 
 
     public DocumentData(List<String> words, String label, int docNumber)
@@ -80,6 +82,22 @@ public class DocumentData {
     public List<String> getLexiconWords() {
         return Collections.unmodifiableList(lexiconWords);
     }
+
+    public List<Double> getTFIDFList() {
+        if(docNumber == 1)
+            return Collections.unmodifiableList(tfidfDoc1);
+        else if(docNumber == 2)
+            return Collections.unmodifiableList(tfidfDoc2);
+        else if(docNumber == 3)
+            return Collections.unmodifiableList(tfidfDoc3);
+        else if(docNumber == 4)
+            return Collections.unmodifiableList(tfidfDoc4);
+        else{
+            System.out.println("ERROR GETTING TFIDF LIST!");
+            return Collections.unmodifiableList(tfidfDoc1);
+        }
+    }
+
 
 
     @Override
