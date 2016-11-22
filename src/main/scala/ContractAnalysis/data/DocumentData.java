@@ -57,6 +57,7 @@ public class DocumentData {
             System.out.print(tfKeys + ": " + tfidfMap.get(tfKeys) + " ");
         System.out.println();
         */
+
     }
 
 

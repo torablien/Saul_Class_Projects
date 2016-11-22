@@ -15,6 +15,7 @@ import java.util.Arrays;
  */
 public class NeilWordReader {
     public ArrayList<DocumentData> docs = new ArrayList<>();
+    public int paragraphCount = 0;
 
     public NeilWordReader(String fileName, String label, int docNumber) throws IOException {
         File file = null;
@@ -30,6 +31,7 @@ public class NeilWordReader {
 
             for (int i = 0; i < paragraphs.length; i++) {
                 if (paragraphs[i] != null) {
+                    paragraphCount++;
                     ArrayList<String> paragraphsList = new ArrayList<>(Arrays.asList(paragraphs[i].split("\\s+")));
                     docs.add(new DocumentData(paragraphsList, label, docNumber));
                 }

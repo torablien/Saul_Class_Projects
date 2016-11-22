@@ -98,7 +98,7 @@ public class TFIDF {
                 }
             }
         }
-        return Math.log(documents.length/(1+count));
+        return Math.log(931/(1+count)); // 931 paragraphs
     }
 
     public static double getTFIDF(String term, String[] document, String[][] documents) {
@@ -181,13 +181,13 @@ public class TFIDF {
         TFIDF d1 = new TFIDF();
         System.out.println(d1.getDFMap());
 
-        /*List<Double> v = new ArrayList<>(d1.getDFMap().values());
+        List<Double> v = new ArrayList<>(d1.getDFMap().values());
         List<String> k = new ArrayList<>(d1.getDFMap().keySet());
 
 
         writeToFile("C:\\Users\\Neil\\Desktop\\CMPS3240\\Saul\\Saul_Class_Projects\\src\\main\\scala\\ContractAnalysis\\data\\TFIDF\\DFValues.txt", v);
         writeStrings("C:\\Users\\Neil\\Desktop\\CMPS3240\\Saul\\Saul_Class_Projects\\src\\main\\scala\\ContractAnalysis\\data\\TFIDF\\DFKeys.txt",k);
-        */
+
 
     }
 }
