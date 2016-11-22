@@ -27,8 +27,20 @@ public class TFIDF {
 
     private final String combinedDocs[] = (document1 + document2 + document3 + document4).split("\\s+");
 
+    public TFIDF() throws IOException{ // just for DF MAP
+        String[] fCombinedDocs = filterWords(combinedDocs);
 
-    public TFIDF(int whichDocument) throws IOException {
+        long startTime = System.currentTimeMillis();
+        for(String word: fCombinedDocs) {
+            if(!dfMap.containsKey(word) && !word.equals(""))
+                dfMap.put(word, idf(word, docsArr));
+        }
+        long endTime = System.currentTimeMillis();
+
+        System.out.println("Calculated DF Map in " + (endTime - startTime) + " milliseconds");
+    }
+
+    public TFIDF(int whichDocument) throws IOException { // creates TFIDF values for ENTIRE DOCUMENTS -- Constructor used to TEST only!
         String currDoc[];
         if(whichDocument == 1)
             currDoc = doc1Arr;
@@ -62,8 +74,6 @@ public class TFIDF {
         endTime = System.currentTimeMillis();
 
         System.out.println("Calculated full TFIDF Map for document " + whichDocument + " in " + (endTime - startTime) + " milliseconds");
-
-
     }
 
    public static double tf(String term, String[] document) {
@@ -118,11 +128,14 @@ public class TFIDF {
         return (values);
     }
 
+    public Map<String, Double> getDFMap(){
+        return dfMap;
+    }
+
     public static void writeToFile(String filepath, List<Double> values){
         try {
             File file = new File(filepath);
 
-            // if file doesnt exists, then create it
             if (!file.exists()) {
                 file.createNewFile();
             }
@@ -133,7 +146,29 @@ public class TFIDF {
                 bw.write(String.valueOf(value) + '\n');
             bw.close();
 
-            System.out.println("Done");
+            System.out.println("Successfully written to file!");
+
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+
+    }
+
+    public static void writeStrings(String filepath, List<String> values){
+        try {
+            File file = new File(filepath);
+
+            if (!file.exists()) {
+                file.createNewFile();
+            }
+
+            FileWriter fw = new FileWriter(file.getAbsoluteFile());
+            BufferedWriter bw = new BufferedWriter(fw);
+            for(String value: values)
+                bw.write(String.valueOf(value) + '\n');
+            bw.close();
+
+            System.out.println("Successfully written to file!");
 
         } catch (IOException e) {
             e.printStackTrace();
@@ -143,22 +178,16 @@ public class TFIDF {
 
     public static void main(String[] args) throws IOException {
 
-        TFIDF d1 = new TFIDF(1);
-        TFIDF d2 = new TFIDF(2);
-        TFIDF d3 = new TFIDF(3);
-        TFIDF d4 = new TFIDF(4);
+        TFIDF d1 = new TFIDF();
+        System.out.println(d1.getDFMap());
+
+        /*List<Double> v = new ArrayList<>(d1.getDFMap().values());
+        List<String> k = new ArrayList<>(d1.getDFMap().keySet());
 
 
-        System.out.println(d1.getTFIDFMap());
-        System.out.println(d2.getTFIDFMap());
-        System.out.println(d3.getTFIDFMap());
-        System.out.println(d4.getTFIDFMap());
-
-
-        writeToFile("C:\\Users\\Neil\\Desktop\\CMPS3240\\Saul\\Saul_Class_Projects\\src\\main\\scala\\ContractAnalysis\\data\\TFIDF\\TFIDFDoc1.txt",d1.getTFIDFValues());
-        writeToFile("C:\\Users\\Neil\\Desktop\\CMPS3240\\Saul\\Saul_Class_Projects\\src\\main\\scala\\ContractAnalysis\\data\\TFIDF\\TFIDFDoc2.txt",d2.getTFIDFValues());
-        writeToFile("C:\\Users\\Neil\\Desktop\\CMPS3240\\Saul\\Saul_Class_Projects\\src\\main\\scala\\ContractAnalysis\\data\\TFIDF\\TFIDFDoc3.txt",d3.getTFIDFValues());
-        writeToFile("C:\\Users\\Neil\\Desktop\\CMPS3240\\Saul\\Saul_Class_Projects\\src\\main\\scala\\ContractAnalysis\\data\\TFIDF\\TFIDFDoc4.txt",d4.getTFIDFValues());
+        writeToFile("C:\\Users\\Neil\\Desktop\\CMPS3240\\Saul\\Saul_Class_Projects\\src\\main\\scala\\ContractAnalysis\\data\\TFIDF\\DFValues.txt", v);
+        writeStrings("C:\\Users\\Neil\\Desktop\\CMPS3240\\Saul\\Saul_Class_Projects\\src\\main\\scala\\ContractAnalysis\\data\\TFIDF\\DFKeys.txt",k);
+        */
 
     }
 }

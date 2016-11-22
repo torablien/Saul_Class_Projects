@@ -1,10 +1,13 @@
 package ContractAnalysis.data;
 
 import ContractAnalysis.DoubleReader;
+import ContractAnalysis.StringReader;
 import edu.stanford.nlp.util.ArrayUtils;
 
+import java.io.IOException;
 import java.util.*;
 
+import static ContractAnalysis.TFIDF.tf;
 
 public class DocumentData {
 
@@ -20,13 +23,17 @@ public class DocumentData {
     private final String vocabulary[] = {"bad", "bad-actor", "failure", "sale"};
     private final Set<String> vocabularySet = new HashSet<String>(Arrays.asList(vocabulary));
 
-    private static final List<Double> tfidfDoc1 = new DoubleReader("C:\\Users\\Neil\\Desktop\\CMPS3240\\Saul\\Saul_Class_Projects\\src\\main\\scala\\ContractAnalysis\\data\\TFIDF\\TFIDFDoc1.txt").doubles;
-    private static final List<Double> tfidfDoc2 = new DoubleReader("C:\\Users\\Neil\\Desktop\\CMPS3240\\Saul\\Saul_Class_Projects\\src\\main\\scala\\ContractAnalysis\\data\\TFIDF\\TFIDFDoc2.txt").doubles;
-    private static final List<Double> tfidfDoc3 = new DoubleReader("C:\\Users\\Neil\\Desktop\\CMPS3240\\Saul\\Saul_Class_Projects\\src\\main\\scala\\ContractAnalysis\\data\\TFIDF\\TFIDFDoc3.txt").doubles;
-    private static final List<Double> tfidfDoc4 = new DoubleReader("C:\\Users\\Neil\\Desktop\\CMPS3240\\Saul\\Saul_Class_Projects\\src\\main\\scala\\ContractAnalysis\\data\\TFIDF\\TFIDFDoc4.txt").doubles;
+    private static final List<Double> dfValues = new DoubleReader("C:\\Users\\Neil\\Desktop\\CMPS3240\\Saul\\Saul_Class_Projects\\src\\main\\scala\\ContractAnalysis\\data\\TFIDF\\DFValues.txt").doubles;
+    private static final List<String> dfKeys = new StringReader("C:\\Users\\Neil\\Desktop\\CMPS3240\\Saul\\Saul_Class_Projects\\src\\main\\scala\\ContractAnalysis\\data\\TFIDF\\DFKeys.txt").allStrings;
+
+    private final Map<String, Double> tfMap = new HashMap<String, Double>();
+    private static Map<String, Double> dfMap = new HashMap<String, Double>();
+    private final Map<String, Double> tfidfMap = new HashMap<String, Double>();
 
 
-    public DocumentData(List<String> words, String label, int docNumber)
+
+
+    public DocumentData(List<String> words, String label, int docNumber) throws IOException
     {
 
         this.words = words;
@@ -35,16 +42,31 @@ public class DocumentData {
 
         filterWords(words);
         buildLexiconSet(filteredWords);
+        buildTFMap(filteredWords);
+        buildDFMap(dfKeys, dfValues);
+        //System.out.println(tfMap);
+        for(String dfKey : dfMap.keySet()) {
+            if(tfMap.containsKey(dfKey))
+                tfidfMap.put(dfKey, dfMap.get(dfKey) * tfMap.get(dfKey));
+            else
+                tfidfMap.put(dfKey, 0.0);
+        }
 
+        /*
+        for(String tfKeys: tfMap.keySet())
+            System.out.print(tfKeys + ": " + tfidfMap.get(tfKeys) + " ");
+        System.out.println();
+        */
     }
 
-    public DocumentData(List<String> words, String label)
+
+    public DocumentData(List<String> words, String label) throws IOException
     {
         this(words, label, -1);
     }
 
 
-    public DocumentData(List<String> words) {
+    public DocumentData(List<String> words) throws IOException {
 
         this(words, "unknown");
     }
@@ -59,11 +81,26 @@ public class DocumentData {
     }
 
     public void buildLexiconSet(List<String> words){
-        for(String word : filteredWords) {
+        for(String word : words) {
             if (vocabularySet.contains(word)) {
                 lexiconWords.add(word);
             }
         }
+    }
+
+    public void buildTFMap(List<String> words){
+        String[] wordsArr = words.toArray(new String[words.size()]);
+        for(String word : wordsArr) {
+            if (!tfMap.containsKey(word) && !word.equals(""))
+                tfMap.put(word, tf(word, wordsArr));
+        }
+
+    }
+
+    private void buildDFMap(List<String> keys, List<Double> values){
+            for(int i = 0; i < keys.size(); i++){
+                dfMap.put(keys.get(i), values.get(i));
+            }
     }
 
 
@@ -84,24 +121,9 @@ public class DocumentData {
     }
 
     public double[] getTFIDFList() {
-        double[] x;
-
-        if(docNumber == 1)
-            x = ArrayUtils.toPrimitive(tfidfDoc1.toArray(new Double[tfidfDoc1.size()]));
-        else if(docNumber == 2)
-            x = ArrayUtils.toPrimitive(tfidfDoc2.toArray(new Double[tfidfDoc2.size()]));
-        else if(docNumber == 3)
-            x = ArrayUtils.toPrimitive(tfidfDoc3.toArray(new Double[tfidfDoc3.size()]));
-        else if(docNumber == 4)
-            x = ArrayUtils.toPrimitive(tfidfDoc4.toArray(new Double[tfidfDoc4.size()]));
-        else{
-            System.out.println("ERROR GETTING TFIDF LIST!");
-            x = ArrayUtils.toPrimitive(tfidfDoc1.toArray(new Double[tfidfDoc1.size()]));
-        }
+        double[] x = ArrayUtils.toPrimitive(tfidfMap.values().toArray(new Double[tfidfMap.values().size()]));
         return x;
     }
-
-
 
     @Override
     public String toString() {

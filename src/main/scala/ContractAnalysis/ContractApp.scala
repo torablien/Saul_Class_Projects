@@ -8,6 +8,7 @@ import scala.collection.JavaConversions._
 object ContractApp extends Logging {
   val filepath = "C:\\Users\\Neil\\Desktop\\CMPS3240\\Saul\\Saul_Class_Projects\\src\\main\\scala\\ContractAnalysis\\data\\Contracts\\"
 
+  // Doc Number argument used solely for testing purposes
   val trainDataCollab = new NeilWordReader(filepath + "(Collab) series-seed---stock-investment-agreement-v-3-2.doc","collaborative", 3).docs.toList
   val trainDataArmsLength = new NeilWordReader(filepath + "(Arms Length) SPA-with-Bad-Actor-Provisions-Feb-2014.doc","arms-length", 4).docs.toList
 
@@ -119,21 +120,16 @@ object ContractApp extends Logging {
 
 
 /*
-1. Naive Bayes takes long tme
-2. TFIDF implement to Saul
-3. What is layout and length of paper? When is it due? ---basically presentation with detail -> 4-5 including refernces
-4. What is considered acceptable results? -> Mine are pretty good results
 
-
+Paper is like the  presentation with detail -> 4-5 including refernces
 TFIDF - feature is Values Array as long as ordering of Keys remains the same
-Test stratified - but doesnn't make sense
+
+
 
 Debug
 Add break point
 Watch variable
-
 Go to-- watch the CLASSIFIER
-
 take attribute .clossifier.getLexicon
 couple thousand is reasonable
 

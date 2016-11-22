@@ -31,13 +31,16 @@ object ContractClassifiers {
   object ContractClassifierNaiveBayes extends Learnable[DocumentData](docs) {
     def label = contractLabel
     override lazy val classifier = new SaulWekaWrapper(new NaiveBayes())
-    override def feature = using(filteredWordFeature, bigramFeature)
+    //override def feature = using(filteredWordFeature, lexiconWordFeature, bigramFeature, trigramFeature)
+    override def feature = using(filteredWordFeature)
+    //println(ContractClassifierNaiveBayes.classifier.getLexicon);
+
   }
 
   object SparseNetworkContractClassifier extends Learnable[DocumentData](docs) {
     def label = contractLabel
     override lazy val classifier = new SparseNetworkLearner()
-    override def feature = using(filteredWordFeature, lexiconWordFeature, bigramFeature, trigramFeature, tfidfFeature)
+    override def feature = using(filteredWordFeature, lexiconWordFeature, bigramFeature, trigramFeature)
     //override def feature = using(tfidfFeature)
 
   }
@@ -52,12 +55,13 @@ object ContractClassifiers {
     def label = contractLabel
     override lazy val classifier = new SparseAveragedPerceptron();
     override def feature = using(filteredWordFeature, lexiconWordFeature, bigramFeature, trigramFeature)
+
   }
 
   object AdaBoostClassifier extends Learnable[DocumentData](docs) {
     def label = contractLabel
     override lazy val classifier = new AdaBoost();
-    override def feature = using(filteredWordFeature, lexiconWordFeature, bigramFeature, trigramFeature)
+    override def feature = using(filteredWordFeature, lexiconWordFeature, bigramFeature, trigramFeature, tfidfFeature)
   }
 
 }
